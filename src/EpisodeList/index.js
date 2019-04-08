@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchEpisodeAll } from "../api";
+import Paginator from "../Paginator";
 
 function EpisodeList() {
   const [episodes, setEpisodes] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageTotal, setPageTotal] = useState(1);
 
   useEffect(() => {
-    fetchEpisodeAll().then(data => setEpisodes(data));
-  }, []);
+    fetchEpisodeAll(page).then(data => {
+      setEpisodes(data.results);
+      setPageTotal(data.info.pages);
+    });
+  }, [page]);
 
   return (
     <>
@@ -21,6 +27,11 @@ function EpisodeList() {
           );
         })}
       </ul>
+      <Paginator
+        current={page}
+        pages={pageTotal}
+        onPageChange={page => setPage(page)}
+      />
     </>
   );
 }

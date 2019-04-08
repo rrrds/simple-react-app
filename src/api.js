@@ -14,10 +14,10 @@ export async function fetchCharacterAll() {
   return res;
 }
 
-export async function fetchEpisodeAll() {
-  const res = await fetch(`${API}/episode`)
-    .then(body => body.json())
-    .then(json => json.results);
+export async function fetchEpisodeAll(page = 1) {
+  const res = await fetch(`${API}/episode?page=${page}`).then(body =>
+    body.json()
+  );
 
   return res;
 }
