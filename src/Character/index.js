@@ -10,7 +10,6 @@ export function Character({ match }) {
 
   useEffect(() => {
     fetchCharacter(match.params.id).then(data => {
-      console.log(data);
       setCharacter(data);
     });
   }, []);
@@ -22,8 +21,11 @@ export function Character({ match }) {
 
     const episodesId = character.episode.map(ep => ep.id);
     fetchEpisode(episodesId).then(data => {
-      console.log(data);
-      setEpisodes(data);
+      if (Array.isArray(data)) {
+        setEpisodes(data);
+      } else {
+        setEpisodes([data]);
+      }
     });
   }, [character]);
 
@@ -46,9 +48,13 @@ export function Character({ match }) {
               <dd>{character.gender}</dd>
               <dt>Origin:</dt>
               <dd>
-                <Link to={`/location/${character.origin.id}`}>
-                  {character.origin.name}
-                </Link>
+                {character.origin.id ? (
+                  <Link to={`/location/${character.origin.id}`}>
+                    {character.origin.name}
+                  </Link>
+                ) : (
+                  character.origin.name
+                )}
               </dd>
             </dl>
           </div>
