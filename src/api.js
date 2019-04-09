@@ -1,17 +1,35 @@
 const API = "https://rickandmortyapi.com/api";
 
 export async function fetchCharacter(id) {
+  if (Array.isArray(id)) {
+    id = id.join(",");
+  }
+
   const res = await fetch(`${API}/character/${id}`)
     .then(body => body.json())
     .then(data => {
-      data.episode = data.episode.map(ep => {
-        return {
-          url: ep,
-          id: ep.match(/\/(\d+)$/)[1]
-        };
-      });
-      data.location.id = data.location.url.match(/\/(\d+)$/)[1];
-      data.origin.id = data.origin.url.match(/\/(\d+)$/)[1];
+      const addIds = data => {
+        data.episode = data.episode.map(ep => {
+          return {
+            url: ep,
+            id: ep.match(/\/(\d+)$/)[1]
+          };
+        });
+        data.location.id = data.location.url
+          ? data.location.url.match(/\/(\d+)$/)[1]
+          : null;
+        data.origin.id = data.origin.url
+          ? data.origin.url.match(/\/(\d+)$/)[1]
+          : null;
+
+        return data;
+      };
+
+      if (Array.isArray(data)) {
+        data = data.map(item => addIds(item));
+      } else {
+        data = addIds(data);
+      }
 
       return data;
     });
@@ -54,7 +72,32 @@ export async function fetchLocationAll(page = 1) {
 }
 
 export async function fetchLocation(id) {
-  const res = await fetch(`${API}/location/${id}`).then(body => body.json());
+  if (Array.isArray(id)) {
+    id = id.join(",");
+  }
+
+  const res = await fetch(`${API}/location/${id}`)
+    .then(body => body.json())
+    .then(data => {
+      const addIds = data => {
+        data.residents = data.residents.map(char => {
+          return {
+            url: char,
+            id: char.match(/\/(\d+)$/)[1]
+          };
+        });
+
+        return data;
+      };
+
+      if (Array.isArray(data)) {
+        data = data.map(item => addIds(item));
+      } else {
+        data = addIds(data);
+      }
+
+      return data;
+    });
 
   return res;
 }
