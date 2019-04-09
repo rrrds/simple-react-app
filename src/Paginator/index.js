@@ -1,4 +1,5 @@
 import React from "react";
+import "./paginator.css";
 
 function Paginator({ current, pages, onPageChange }) {
   const handleClick = ev => {
@@ -12,12 +13,16 @@ function Paginator({ current, pages, onPageChange }) {
   return (
     pages > 1 && (
       <div>
-        <ul onClick={handleClick}>
+        <ul onClick={handleClick} className="paginator-list">
           {[...Array(pages)].map((val, idx) => {
             const pageNumber = idx + 1;
             return (
-              <li>
-                <button data-page={pageNumber} disabled={current == pageNumber}>
+              <li className="paginator-item">
+                <button
+                  className="page-button"
+                  data-page={pageNumber}
+                  disabled={current == pageNumber}
+                >
                   {pageNumber}
                 </button>
               </li>
