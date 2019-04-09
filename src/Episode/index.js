@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchEpisode } from "../api";
 
-function Episode({ match }) {
+export function Episode({ match }) {
   const [episode, setEpisode] = useState(null);
 
   useEffect(() => {
@@ -19,4 +19,6 @@ function Episode({ match }) {
   );
 }
 
-export default Episode;
+export function EpisodeShort({ epData }) {
+  return `${epData.episode} - ${epData.name}`;
+}

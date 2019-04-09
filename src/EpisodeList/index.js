@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchEpisodeAll } from "../api";
 import Paginator from "../Paginator";
+import { EpisodeShort } from "../Episode";
 
 function EpisodeList() {
   const [episodes, setEpisodes] = useState([]);
@@ -22,7 +23,9 @@ function EpisodeList() {
         {episodes.map(ep => {
           return (
             <li key={ep.id}>
-              <Link to={`/episode/${ep.id}`}>{ep.name}</Link>
+              <Link to={`/episode/${ep.id}`}>
+                <EpisodeShort epData={ep} />
+              </Link>
             </li>
           );
         })}
