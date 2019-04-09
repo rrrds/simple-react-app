@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchLocationAll } from "../api";
+import Paginator from "../Paginator";
 
 function LocationList() {
   const [locations, setLocations] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageTotal, setPageTotal] = useState(1);
 
   useEffect(() => {
-    fetchLocationAll().then(data => setLocations(data));
-  }, []);
+    fetchLocationAll(page).then(data => {
+      setLocations(data.results);
+      setPageTotal(data.info.pages);
+    });
+  }, [page]);
 
   return (
     <>
@@ -21,6 +27,11 @@ function LocationList() {
           );
         })}
       </ul>
+      <Paginator
+        current={page}
+        pages={pageTotal}
+        onPageChange={page => setPage(page)}
+      />
     </>
   );
 }

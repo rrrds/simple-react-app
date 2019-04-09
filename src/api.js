@@ -28,10 +28,10 @@ export async function fetchEpisode(id) {
   return res;
 }
 
-export async function fetchLocationAll() {
-  const res = await fetch(`${API}/location`)
-    .then(body => body.json())
-    .then(json => json.results);
+export async function fetchLocationAll(page = 1) {
+  const res = await fetch(`${API}/location?page=${page}`).then(body =>
+    body.json()
+  );
 
   return res;
 }
