@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import "./character.css";
 import { fetchCharacter } from "../api";
 
-function Character({ match }) {
+export function Character({ match }) {
   const [character, setCharacter] = useState(null);
 
   useEffect(() => {
@@ -21,4 +22,15 @@ function Character({ match }) {
   );
 }
 
-export default Character;
+export function CharacterShort({ charData }) {
+  return (
+    <div className="char-info char-info--short">
+      <img
+        src={charData.image}
+        alt={charData.name}
+        className="char-info__avatar"
+      />
+      <span>{charData.name}</span>
+    </div>
+  );
+}
