@@ -3,13 +3,19 @@ import { Link } from "react-router-dom";
 import "./characterList.css";
 import { fetchCharacterAll } from "../api";
 import { CharacterShort } from "../Character";
+import Paginator from "../Paginator";
 
 function CharacterList() {
   const [characters, setCharacters] = useState([]);
+  const [page, setPage] = useState(1);
+  const [pageTotal, setPageTotal] = useState(1);
 
   useEffect(() => {
-    fetchCharacterAll().then(data => setCharacters(data));
-  }, []);
+    fetchCharacterAll(page).then(data => {
+      setCharacters(data.results);
+      setPageTotal(data.info.pages);
+    });
+  }, [page]);
 
   return (
     <>
@@ -25,6 +31,11 @@ function CharacterList() {
           );
         })}
       </ul>
+      <Paginator
+        current={page}
+        pages={pageTotal}
+        onPageChange={page => setPage(page)}
+      />
     </>
   );
 }

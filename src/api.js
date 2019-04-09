@@ -6,10 +6,10 @@ export async function fetchCharacter(id) {
   return res;
 }
 
-export async function fetchCharacterAll() {
-  const res = await fetch(`${API}/character`)
-    .then(body => body.json())
-    .then(json => json.results);
+export async function fetchCharacterAll(page = 1) {
+  const res = await fetch(`${API}/character?page=${page}`).then(body =>
+    body.json()
+  );
 
   return res;
 }
