@@ -13,7 +13,7 @@ import { Episode } from "../Episode";
 function App() {
   return (
     <Router>
-      <div class="app">
+      <div className="app">
         <Navigation />
 
         <main className="main">
