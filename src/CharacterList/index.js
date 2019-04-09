@@ -19,7 +19,7 @@ function CharacterList() {
 
   return (
     <>
-      <h2>CharacterList</h2>
+      <h2>Characters</h2>
       <ul className="character-list">
         {characters.map(char => {
           return (
