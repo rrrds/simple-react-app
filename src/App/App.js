@@ -6,7 +6,7 @@ import Home from "../Home";
 import CharacterList from "../CharacterList";
 import { Character } from "../Character";
 import LocationList from "../LocationList";
-import Location from "../Location";
+import { Location } from "../Location";
 import EpisodeList from "../EpisodeList";
 import { Episode } from "../Episode";
 

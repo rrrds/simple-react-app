@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchLocation } from "../api";
 
-function Location({ match }) {
+export function Location({ match }) {
   const [location, setLocation] = useState(null);
 
   useEffect(() => {
@@ -18,4 +18,6 @@ function Location({ match }) {
   );
 }
 
-export default Location;
+export function LocationShort({ locData }) {
+  return locData.name;
+}

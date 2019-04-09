@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { fetchLocationAll } from "../api";
+import { LocationShort } from "../Location";
 import Paginator from "../Paginator";
 
 function LocationList() {
@@ -17,12 +18,14 @@ function LocationList() {
 
   return (
     <>
-      <h2>LocationList</h2>
-      <ul>
+      <h2>Locations</h2>
+      <ul className="location-list">
         {locations.map(loc => {
           return (
-            <li key={loc.id}>
-              <Link to={`/location/${loc.id}`}>{loc.name}</Link>
+            <li key={loc.id} className="location-item">
+              <Link to={`/location/${loc.id}`}>
+                <LocationShort locData={loc} />
+              </Link>
             </li>
           );
         })}
