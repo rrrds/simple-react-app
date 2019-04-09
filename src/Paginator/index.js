@@ -12,7 +12,7 @@ function Paginator({ current, pages, onPageChange }) {
 
   return (
     pages > 1 && (
-      <div>
+      <div className="paginator">
         <ul onClick={handleClick} className="paginator-list">
           {[...Array(pages)].map((val, idx) => {
             const pageNumber = idx + 1;
