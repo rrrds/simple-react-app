@@ -1,23 +1,73 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import "./character.css";
-import { fetchCharacter } from "../api";
+import { fetchCharacter, fetchEpisode } from "../api";
+import { EpisodeShort } from "../Episode";
 
 export function Character({ match }) {
   const [character, setCharacter] = useState(null);
+  const [episodes, setEpisodes] = useState([]);
 
   useEffect(() => {
-    fetchCharacter(match.params.id).then(data => setCharacter(data));
+    fetchCharacter(match.params.id).then(data => {
+      console.log(data);
+      setCharacter(data);
+    });
   }, []);
+
+  useEffect(() => {
+    if (!character) {
+      return;
+    }
+
+    const episodesId = character.episode.map(ep => ep.id);
+    fetchEpisode(episodesId).then(data => {
+      console.log(data);
+      setEpisodes(data);
+    });
+  }, [character]);
 
   return (
     character && (
-      <div>
-        <h2>Character</h2>
-        Name: {character.name}
-        Status: {character.status}
-        Species: {character.species}
-        Gender: {character.gender}
-      </div>
+      <>
+        <h2>Character info</h2>
+        <div className="char-info">
+          <div className="avatar">
+            <img src={character.image} alt={character.name} />
+          </div>
+          <div className="main-info">
+            <h3>{character.name}</h3>
+            <dl className="description">
+              <dt>Status:</dt>
+              <dd>{character.status}</dd>
+              <dt>Species:</dt>
+              <dd>{character.species}</dd>
+              <dt>Gender:</dt>
+              <dd>{character.gender}</dd>
+              <dt>Origin:</dt>
+              <dd>
+                <Link to={`/location/${character.origin.id}`}>
+                  {character.origin.name}
+                </Link>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div className="episodes">
+          <h3>Episodes</h3>
+          <ul>
+            {episodes.map(ep => {
+              return (
+                <li>
+                  <Link to={`/episode/${ep.id}`}>
+                    <EpisodeShort epData={ep} />
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </>
     )
   );
 }
