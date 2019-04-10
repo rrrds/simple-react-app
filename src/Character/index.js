@@ -64,7 +64,7 @@ export function Character({ match }) {
           <ul>
             {episodes.map(ep => {
               return (
-                <li>
+                <li key={ep.id}>
                   <Link to={`/episode/${ep.id}`}>
                     <EpisodeShort epData={ep} />
                   </Link>

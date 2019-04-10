@@ -46,7 +46,7 @@ export function Location({ match }) {
           <ul>
             {residents.map(char => {
               return (
-                <li>
+                <li key={char.id}>
                   <Link to={`/character/${char.id}`}>
                     <CharacterShort charData={char} />
                   </Link>

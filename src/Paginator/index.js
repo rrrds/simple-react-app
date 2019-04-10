@@ -17,7 +17,7 @@ function Paginator({ current, pages, onPageChange }) {
           {[...Array(pages)].map((val, idx) => {
             const pageNumber = idx + 1;
             return (
-              <li className="paginator-item">
+              <li key={idx} className="paginator-item">
                 <button
                   className="page-button"
                   data-page={pageNumber}
