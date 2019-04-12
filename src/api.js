@@ -58,7 +58,28 @@ export async function fetchEpisode(id) {
     id = id.join(",");
   }
 
-  const res = await fetch(`${API}/episode/${id}`).then(body => body.json());
+  const res = await fetch(`${API}/episode/${id}`)
+    .then(body => body.json())
+    .then(data => {
+      const addIds = data => {
+        data.characters = data.characters.map(char => {
+          return {
+            url: char,
+            id: char.match(/\/(\d+)$/)[1]
+          };
+        });
+
+        return data;
+      };
+
+      if (Array.isArray(data)) {
+        data = data.map(item => addIds(item));
+      } else {
+        data = addIds(data);
+      }
+
+      return data;
+    });
 
   return res;
 }
