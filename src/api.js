@@ -55,8 +55,17 @@ export async function fetchCharacterAll(page = 1, filters) {
   return await fetchData(`/character/?page=${page}&${filterString}`);
 }
 
-export async function fetchEpisodeAll(page = 1) {
-  return await fetchData(`/episode?page=${page}`);
+export async function fetchEpisodeAll(page = 1, filters) {
+  const allFilters = { name: "" };
+  filters = Object.assign(allFilters, filters);
+
+  const filterString = Object.entries(filters)
+    .map(([key, value]) => {
+      return `${key}=${value}`;
+    })
+    .join("&");
+
+  return await fetchData(`/episode?page=${page}&${filterString}`);
 }
 
 export async function fetchEpisode(id) {
@@ -87,7 +96,14 @@ export async function fetchLocationAll(page = 1, filters) {
     })
     .join("&");
 
-  return await fetchData(`/location?page=${page}&${filterString}`);
+  return await fetchData(`/location?page=${page}&${filterString}`).then(
+    data => {
+      console.log(data);
+      if (!data) return { results: [], pages: 0 };
+
+      return { results: data.results, pages: data.info.pages };
+    }
+  );
 }
 
 export async function fetchLocation(id) {
@@ -111,9 +127,9 @@ export async function fetchLocationMulti(id) {
 async function fetchData(path) {
   return await fetch(`${API_BASE}${path}`)
     .then(res => {
-      if (res.status !== 200) return [];
+      if (res.status !== 200) return null;
 
       return res.json();
     })
-    .catch(err => []);
+    .catch(err => null);
 }
