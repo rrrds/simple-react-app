@@ -18,7 +18,7 @@ function LocationList() {
   useEffect(() => {
     fetchLocationAll(page, { name: debounceName }).then(data => {
       setLocations(data.results);
-      setPageTotal(data.info.pages);
+      setPageTotal(data.pages);
     });
   }, [page, debounceName]);
 
