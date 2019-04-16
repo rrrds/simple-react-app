@@ -77,8 +77,17 @@ export async function fetchEpisodeMulti(id) {
   return res;
 }
 
-export async function fetchLocationAll(page = 1) {
-  return await fetchData(`/location?page=${page}`);
+export async function fetchLocationAll(page = 1, filters) {
+  const allFilters = { name: "" };
+  filters = Object.assign(allFilters, filters);
+
+  const filterString = Object.entries(filters)
+    .map(([key, value]) => {
+      return `${key}=${value}`;
+    })
+    .join("&");
+
+  return await fetchData(`/location?page=${page}&${filterString}`);
 }
 
 export async function fetchLocation(id) {
